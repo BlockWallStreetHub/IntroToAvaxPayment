@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reintroduction To AVAX — Block Wall Street</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0A0E17;
+    --panel:#121826;
+    --panel-2:#171F30;
+    --line:#2A3348;
+    --gold:#D4A24C;
+    --gold-bright:#E8BE6F;
+    --off-white:#EDE9DD;
+    --muted:#8B94A8;
+    --green:#5FA867;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--navy);
+    background-image:radial-gradient(ellipse at top, rgba(212,162,76,0.07), transparent 60%);
+    color:var(--off-white);
+    font-family:'Barlow',sans-serif;
+    line-height:1.6;
+  }
+  h1,h2,h3,.display{font-family:'Bebas Neue',sans-serif;letter-spacing:0.03em;font-weight:400;color:var(--off-white);}
+  .mono{font-family:'DM Mono',monospace;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+
+  header.top{border-bottom:1px solid var(--line);padding:18px 0;background:#080B12;}
+  .top-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+  .brand{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.14em;color:var(--gold);}
+  .brand span{color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;margin-left:10px;}
+  .stamp{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;color:var(--gold-bright);border:1px solid var(--gold-bright);padding:5px 10px;border-radius:2px;transform:rotate(-2deg);}
+
+  .hero{padding:56px 0 32px;text-align:center;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;}
+  .hero h1{font-size:48px;margin:14px 0 4px;line-height:0.97;}
+  .hero h1 em{font-style:normal;color:var(--gold);}
+  .hero p.sub{color:var(--muted);max-width:540px;margin:14px auto 0;font-size:16px;}
+
+  .brief{margin:34px auto 0;max-width:600px;background:var(--panel);border:1px solid var(--line);border-radius:4px;text-align:left;overflow:hidden;}
+  .brief-head{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;background:var(--panel-2);border-bottom:1px solid var(--line);}
+  .brief-head .l{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;}
+  .brief-head .r{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);}
+  .brief-body{padding:20px 22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  .brief-item .k{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+  .brief-item .v{font-family:'Bebas Neue',sans-serif;font-size:22px;margin-top:2px;}
+
+  section.block{padding:48px 0;border-bottom:1px solid var(--line);}
+  section.block:last-of-type{border-bottom:none;}
+  .kicker{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+  h2{font-size:30px;margin:0 0 18px;}
+  p{margin:0 0 14px;color:var(--off-white);}
+  p.lead{font-size:17px;color:var(--muted);}
+
+  .topics{list-style:none;padding:0;margin:0;display:grid;gap:10px;}
+  .topics li{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--gold);
+    border-radius:3px;
+    padding:14px 16px;
+    font-size:15px;
+  }
+  .topics li strong{color:var(--gold-bright);font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.05em;display:block;margin-bottom:4px;text-transform:uppercase;}
+
+  /* payment options */
+  .pay-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:22px 24px;margin-bottom:18px;}
+  .pay-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
+  .pay-name{font-family:'Bebas Neue',sans-serif;font-size:24px;}
+  .pay-price{font-family:'DM Mono',monospace;font-size:16px;color:var(--green);margin-bottom:12px;}
+  .pay-price .now{color:var(--green);font-size:16px;}
+  .pay-price .was{text-decoration:line-through;color:var(--muted);margin-right:8px;font-size:13px;}
+  .pay-discount{
+    font-family:'DM Mono',monospace;font-size:12px;color:var(--navy);background:var(--gold);
+    padding:4px 10px;border-radius:20px;white-space:nowrap;height:fit-content;
+  }
+  .btn{
+    display:inline-block;font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.05em;
+    color:var(--navy);background:var(--gold);padding:11px 20px;border-radius:2px;text-decoration:none;
+    border:none;cursor:pointer;transition:background 0.15s ease;
+  }
+  .btn:hover{background:var(--gold-bright);}
+  .btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold);}
+  .btn.ghost:hover{background:rgba(212,162,76,0.1);}
+
+  .addr-row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--panel-2);border:1px solid var(--line);border-radius:3px;padding:12px 14px;margin-top:10px;}
+  .addr-row .meta{min-width:70px;}
+  .addr-row .meta .net{font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:0.05em;}
+  .addr-row .addr{font-family:'DM Mono',monospace;font-size:12px;color:var(--off-white);word-break:break-all;flex:1;}
+  .copy-btn{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);background:transparent;border:1px solid var(--line);padding:6px 10px;border-radius:2px;cursor:pointer;white-space:nowrap;transition:all 0.15s ease;}
+  .copy-btn:hover{border-color:var(--gold);color:var(--gold);}
+  .copy-btn.copied{color:var(--green);border-color:var(--green);}
+
+  .note{font-family:'DM Mono',monospace;font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6;}
+  .note strong{color:var(--off-white);}
+
+  /* RSVP form */
+  form#rsvpForm{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:26px 24px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;}
+  .field input, .field select{
+    width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:3px;
+    color:var(--off-white);padding:11px 12px;font-family:'Barlow',sans-serif;font-size:15px;
+  }
+  .field input:focus, .field select:focus{outline:none;border-color:var(--gold);}
+  form#rsvpForm button{width:100%;margin-top:4px;padding:14px;font-size:14px;}
+
+  #confirm{display:none;text-align:center;padding:20px;}
+  #confirm.show{display:block;}
+  #confirm .num{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--gold);}
+  #confirm p{color:var(--muted);}
+
+  footer.nav{padding:36px 0 60px;text-align:center;}
+  footer.nav p{color:var(--muted);font-size:13px;}
+  footer.nav .signoff{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.06em;color:var(--gold);margin-top:6px;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-row">
+    <div class="brand">BLOCK WALL STREET<span>AVAX CLASS</span></div>
+    <div class="stamp">WED 9/30 · SPACES LIMITED</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Live Class</div>
+    <h1>Reintroduction <em>To AVAX.</em></h1>
+    <p class="sub">A full breakdown of Avalanche — what it is, where it's headed, and how to actually put it to work.</p>
+
+    <div class="brief">
+      <div class="brief-head">
+        <div class="l">Class Brief</div>
+        <div class="r">LIVE + RECORDED</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-item">
+          <div class="k">Class</div>
+          <div class="v">Reintro to AVAX</div>
+        </div>
+        <div class="brief-item">
+          <div class="k">Date / Time</div>
+          <div class="v">Wed, Sep 30 · 7:00 PM CST</div>
+        </div>
+        <div class="brief-item">
+          <div class="k">Price</div>
+          <div class="v">$100 · $90 crypto</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">What We're Covering</div>
+    <h2>Inside the class</h2>
+    <ul class="topics">
+      <li><strong>What AVAX Is</strong>What Avalanche actually is under the hood and how it's different from other L1s</li>
+      <li><strong>Long-Term Goals & Partnerships</strong>Where Avalanche is headed and the major partnerships driving that roadmap</li>
+      <li><strong>Earning Passively</strong>How to put AVAX to work for passive income</li>
+      <li><strong>The DeFi Ecosystem</strong>A tour of what's actually built on Avalanche and how it fits together</li>
+      <li><strong>Ecosystem Coin Opportunities</strong>Investment opportunities across the AVAX ecosystem's own tokens</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">Choose Your Route</div>
+    <h2>Three ways to pay</h2>
+    <p class="lead">$100 via card or Chime — pay in crypto and save 10%.</p>
+
+    <!-- Stripe -->
+    <div class="pay-card">
+      <div class="pay-head">
+        <div class="pay-name">Card / Stripe</div>
+      </div>
+      <div class="pay-price">$100.00</div>
+      <a class="btn" href="https://buy.stripe.com/dRmaEZe649KT0UK1EI2sM0c" target="_blank" rel="noopener">Pay with Card →</a>
+    </div>
+
+    <!-- Chime -->
+    <div class="pay-card">
+      <div class="pay-head">
+        <div class="pay-name">Chime (P2P)</div>
+      </div>
+      <div class="pay-price">$100.00</div>
+      <a class="btn ghost" href="https://app.chime.com/link/qr?u=Amir-Hodari-el" target="_blank" rel="noopener">Open Chime →</a>
+      <p class="note">Send $100 via Chime P2P and note "AVAX Class" in the memo so we can match your payment to your RSVP.</p>
+    </div>
+
+    <!-- Crypto -->
+    <div class="pay-card">
+      <div class="pay-head">
+        <div class="pay-name">Crypto</div>
+        <div class="pay-discount">10% OFF</div>
+      </div>
+      <div class="pay-price"><span class="was">$100.00</span><span class="now">$90.00</span></div>
+
+      <div class="addr-row">
+        <div class="meta"><div class="net">SOL</div></div>
+        <div class="addr" id="addr-sol">HjUtHhcpLc9a5yAAAeGzTaidmgNh6CL3PNLE6TTLYXEV</div>
+        <button class="copy-btn" onclick="copyAddr('addr-sol', this)">Copy</button>
+      </div>
+      <div class="addr-row">
+        <div class="meta"><div class="net">EVM</div></div>
+        <div class="addr" id="addr-evm">0x5FC836a0518973D7FE20081F7b19EE207E6b324C</div>
+        <button class="copy-btn" onclick="copyAddr('addr-evm', this)">Copy</button>
+      </div>
+      <div class="addr-row">
+        <div class="meta"><div class="net">BTC</div></div>
+        <div class="addr" id="addr-btc">bc1qayrmw6xnljvfe4kk7k740tzh55smww3mx0u7e8</div>
+        <button class="copy-btn" onclick="copyAddr('addr-btc', this)">Copy</button>
+      </div>
+      <p class="note"><strong>EVM address works across ETH, Base, Polygon, Avalanche, and Robinhood Chain.</strong> Send the equivalent of $90 at time of transfer, and forward your transaction hash so we can confirm your seat.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">Lock In Your Spot</div>
+    <h2>RSVP for the class</h2>
+    <p class="lead">Reserve your seat below — payment confirms it, so pick a route above too.</p>
+
+    <form id="rsvpForm" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="cbde23f6-f617-4b16-953f-7b0aab0e9f58">
+      <input type="hidden" name="subject" value="New RSVP — Reintroduction To AVAX Class (Wed Sep 30, 7PM CST)">
+      <input type="hidden" name="from_name" value="AVAX Class RSVP">
+
+      <div class="field">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@email.com" required>
+      </div>
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" placeholder="(___) ___-____" required>
+      </div>
+      <div class="field">
+        <label for="format">Attendance Format</label>
+        <select id="format" name="format" required>
+          <option value="" disabled selected>Select one</option>
+          <option value="In-person (Chicago)">In-person (Chicago)</option>
+          <option value="Online/virtual">Online / virtual</option>
+          <option value="Either works">Either works</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn">Reserve My Spot</button>
+    </form>
+
+    <div id="confirm">
+      <div class="num">YOU'RE IN.</div>
+      <p>Your name is on the roster for Wednesday, September 30 at 7:00 PM CST. Complete payment above (if you haven't already) to lock in your seat.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="nav">
+  <div class="wrap">
+    <p>Questions about payment or your spot? Reply to your RSVP confirmation email.</p>
+    <div class="signoff">BLOCK WALL STREET</div>
+  </div>
+</footer>
+
+<script>
+  function copyAddr(id, btn){
+    const text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 1800);
+    });
+  }
+
+  const form = document.getElementById('rsvpForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const data = new FormData(form);
+    fetch(form.action, { method: 'POST', body: data, headers: {'Accept':'application/json'} })
+      .then(res => res.json())
+      .then(() => {
+        form.style.display = 'none';
+        document.getElementById('confirm').classList.add('show');
+      })
+      .catch(() => {
+        alert('Something went wrong submitting your RSVP. Please try again or reach out directly.');
+      });
+  });
+</script>
+
+</body>
+</html>
